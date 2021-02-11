@@ -1,0 +1,50 @@
+#include <Servo.h>
+Servo myservo;
+Servo myservo1;
+// create servo object to control a servo
+
+int pos = 0;
+int duration_front=0;
+long distance_front=0;
+void setup() {
+    // put your setup code here, to run once:
+    myservo.attach(9);
+    myservo1.attach(10);
+    myservo.write(180);
+    myservo1.write(180);
+    pinMode(2,OUTPUT);
+    pinMode(3,INPUT);
+    pinMode(9,OUTPUT);
+    pinMode(10,OUTPUT);
+    Serial.begin(9600);
+}
+
+void loop() {
+    digitalWrite(2, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(2, LOW);
+    delayMicroseconds(2);
+    duration_front= pulseIn(3,HIGH);
+    distance_front=duration_front*0.034/2;
+    Serial.println(distance_front);
+
+    if(distance_front<=10)
+    {
+
+        // put your main code here, to run repeatedly:
+        myservo.write(180); // tell servo to go to position in variable ‘pos’
+
+        myservo.write(0); // tell servo to go to position in variable ‘pos’
+        delay(500); // waits 15ms for the servo to reach the position
+
+        myservo.write(180); // tell servo to go to position in variable ‘pos’
+        delay(500); // waits 15ms for the servo to reach the position
+
+        // waits 15ms for the servo to reach the position
+
+        for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+            myservo1.write(pos); // tell servo to go to position in variable ‘pos’
+            delay(113); // waits 15ms for the servo to reach the position
+        }
+    }
+}
